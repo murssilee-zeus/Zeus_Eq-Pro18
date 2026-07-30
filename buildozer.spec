@@ -1,39 +1,47 @@
 [app]
-title = Zeus EQ Pro18
-package.name = zeuseqpro18
-package.domain = com.bearinmind
-source.dir =.
-source.include_exts = py,png,jpg,kv,atlas,json,wav,mp3
-source.exclude_dirs = tests, bin, venv,.venv,.github,.git,.buildozer, __pycache__
+
+# (Obligatorio) Nombre de tu aplicación
+title = Zeus Eq Pro
+
+# (Obligatorio) Nombre del paquete (en minúsculas, sin espacios)
+package.name = zeuseqpro
+
+# (Obligatorio) Dominio del paquete (usa tu nombre de usuario o proyecto)
+package.domain = github.com.murssilee-zeus
+
+# Versión de tu app
 version = 1.0.0
 
-# ESTO ES LO QUE ARREGLA EL ERROR DE PYTHON 3.14
-requirements = hostpython3==3.11.9,python3==3.11.9,kivy==2.3.1,pyjnius,android
-# Si tienes icon.png, descomenta la siguiente linea:
-# icon.filename = %(source.dir)s/icon.png
+# Punto de entrada: tu archivo principal de Python
+source.dir = .
+source.include_exts = py,png,jpg,kv,atlas,json,ttf
 
+# Versión de Python RECOMENDADA (evita errores con 3.11/3.12)
+python = 3.10
+
+# Requisitos: agrega TODAS las librerías que usa tu app
+requirements = python3,kivy==2.2.1
+
+# Configuración Android (la que fallaba antes)
+android.api = 33
+android.ndk = 25b
+android.sdk = 24
+android.archs = arm64-v8a  # Solo compilamos para 64bits, evita quedarse sin memoria
+android.minapi = 21
+android.ndk_api = 21
+
+# Permisos básicos, agrega los que necesites
+android.permissions = INTERNET, ACCESS_NETWORK_STATE
+
+# Configuración de compilación
+buildozer_verbose = 2
+log_level = 2
+
+# Icono y orientación (ajusta a tu gusto)
 orientation = portrait
 fullscreen = 0
-android.permissions = INTERNET,RECORD_AUDIO,MODIFY_AUDIO_SETTINGS
-android.api = 33
-android.minapi = 24
-android.ndk = 25b
-android.archs = arm64-v8a, armeabi-v7a
-android.enable_androidx = True
-android.accept_sdk_license = True
-android.private_storage = True
-
-# Esto fuerza a usar recetas compatibles
-p4a.branch = master
-p4a.bootstrap = sdl2
-p4a.fork = kivy
-
-# Tienes carpeta android/? Si SI tienes codigo Java, descomenta esto:
-# android.add_src = android/src
-
-android.release_artifact = apk
-android.debug_artifact = apk
 
 [buildozer]
 log_level = 2
-warn_on_root = 1
+warn_on_root = 0
+memory_limit = 4096  # Más memoria para no cortarse la compilación
