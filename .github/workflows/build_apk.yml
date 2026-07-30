@@ -33,3 +33,6 @@ jobs:
       - name: Build APK with Buildozer
         run: |
           buildozer -v android debug
+        env:
+          APP_NO_ISOLATION: "1"
+          USE_SETUPTOOLS: "1"
