@@ -1,47 +1,44 @@
 [app]
 
-# (Obligatorio) Nombre de tu aplicación
+# Nombre de tu aplicación
 title = Zeus Eq Pro
 
-# (Obligatorio) Nombre del paquete (en minúsculas, sin espacios)
+# Datos obligatorios del paquete
 package.name = zeuseqpro
-
-# (Obligatorio) Dominio del paquete (usa tu nombre de usuario o proyecto)
 package.domain = github.com.murssilee-zeus
 
-# Versión de tu app
+# Versión
 version = 1.0.0
 
-# Punto de entrada: tu archivo principal de Python
+# Ruta y archivos de tu código
 source.dir = .
-source.include_exts = py,png,jpg,kv,atlas,json,ttf
+source.include_exts = py,png,jpg,kv,atlas,json,ttf,otf
 
-# Versión de Python RECOMENDADA (evita errores con 3.11/3.12)
+# Versión de Python (compatible y sin fallos)
 python = 3.10
 
-# Requisitos: agrega TODAS las librerías que usa tu app
+# 📌 AGREGA AQUÍ TODAS LAS LIBRERÍAS QUE USA TU APP
+# Ejemplo: requirements = python3,kivy==2.2.1,pillow,requests
 requirements = python3,kivy==2.2.1
 
-# Configuración Android (la que fallaba antes)
+# Configuración Android CORREGIDA
 android.api = 33
 android.ndk = 25b
 android.sdk = 24
-android.archs = arm64-v8a  # Solo compilamos para 64bits, evita quedarse sin memoria
+android.buildtools = 33.0.2
+android.accept_sdk_license = True
+android.archs = arm64-v8a
 android.minapi = 21
 android.ndk_api = 21
 
-# Permisos básicos, agrega los que necesites
+# Permisos (agrega los que necesites)
 android.permissions = INTERNET, ACCESS_NETWORK_STATE
 
-# Configuración de compilación
-buildozer_verbose = 2
-log_level = 2
-
-# Icono y orientación (ajusta a tu gusto)
+# Apariencia
 orientation = portrait
 fullscreen = 0
 
 [buildozer]
 log_level = 2
 warn_on_root = 0
-memory_limit = 4096  # Más memoria para no cortarse la compilación
+memory_limit = 4096
