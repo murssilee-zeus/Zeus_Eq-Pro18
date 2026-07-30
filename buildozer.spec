@@ -24,7 +24,7 @@ source.exclude_dirs = tests, bin, .venv, .github, .git
 version = 1.0.0
 
 # (list) Application requirements
-requirements = python3,kivy,pyjnius,android
+requirements = python3,kivy==2.3.0,pyjnius,android
 
 # (str) Custom source folders for requirements
 android.add_src = android/src
