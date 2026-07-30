@@ -1,31 +1,47 @@
-name: Build Zeus EQ Pro APK
+name: Build APK Zeus Eq Pro
+
 on:
   push:
-    branches:
-      - main
-      - master
-  workflow_dispatch:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:  # Para que puedas ejecutarlo manual cuando quieras
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
+    env:
+      BUILDOZER_MEMORY_LIMIT: 4096
+      PYTHONUNBUFFERED: 1
     steps:
-      - name: Checkout repository
+      - name: 📥 Clonar código
         uses: actions/checkout@v4
-      - name: Set up Python
+
+      - name: 🐍 Instalar Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
-      - name: Install dependencies
+          python-version: '3.10'
+
+      - name: 📦 Instalar dependencias del sistema
         run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential libssl-dev libffi-dev libbz2-dev libsqlite3-dev zlib1g-dev libncurses5-dev libncursesw5-dev liblzo2-dev liblzma-dev python3-dev openjdk-17-jdk zip unzip git ccache autoconf automake libtool pkg-config
-          pip install --upgrade pip wheel setuptools
-          pip install Cython==0.29.36 buildozer
-      - name: Clean cache
+          sudo apt-get update -y
+          sudo apt-get install -y \
+              build-essential git python3-pip python3-dev \
+              openjdk-17-jdk unzip zip libncurses5-dev libncursesw5-dev \
+              libtinfo5 cmake libffi-dev libssl-dev automake libtool pkg-config
+
+      - name: 🛠️ Instalar Buildozer y Cython
         run: |
-          rm -rf .buildozer
-          rm -rf /home/runner/.buildozer
-      - name: Build APK
-        run: |
-          buildozer -v android debug
+          python -m pip install --upgrade pip
+          pip install --user buildozer==1.5.0 cython==0.29.37
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: 🚀 Compilar APK
+        run: buildozer android debug --verbose
+
+      - name: 📤 Subir APK compilada
+        uses: actions/upload-artifact@v4
+        with:
+          name: Zeus-Eq-Pro-APK
+          path: bin/*.apk
+          retention-days: 15
