@@ -1,5 +1,4 @@
 # Zeus EQ Pro18 - Buildozer Configuration File
-# Optimized for GitHub Actions / Ubuntu 22.04 / Python 3.10 / Kivy
 
 [app]
 
@@ -25,7 +24,7 @@ source.exclude_dirs = tests, bin, .venv, .github, .git
 version = 1.0.0
 
 # (list) Application requirements
-requirements = python3==3.10.12,kivy,pyjnius,android
+requirements = python3,kivy,pyjnius,android
 
 # (str) Custom source folders for requirements
 android.add_src = android/src
@@ -54,7 +53,7 @@ android.ndk = 25b
 # (bool) Use --private data storage
 android.private_storage = True
 
-# (list) The Android archs to build for (Solo arm64-v8a para evitar conflictos)
+# (list) The Android archs to build for
 android.archs = arm64-v8a
 
 # (bool) Enable AndroidX support
