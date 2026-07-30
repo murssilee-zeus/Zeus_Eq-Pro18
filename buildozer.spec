@@ -7,10 +7,10 @@ version = 1.0.0
 source.dir = .
 source.include_exts = py,png,jpg,kv,atlas,json,ttf,otf
 
-# Versión compatible SIN el problema del módulo cgi
+# FORZAMOS versión exacta compatible
 python = 3.10
-# Versiones que sí funcionan juntas, sin depender de cgi
-requirements = python3,kivy==2.2.0
+# Versiones que NO dependen del módulo cgi
+requirements = python3==3.10.14,kivy==2.1.0
 
 android.api = 33
 android.ndk = 25b
