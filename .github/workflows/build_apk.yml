@@ -1,42 +1,23 @@
 name: Build Zeus EQ Pro APK
-
 on:
   push:
     branches: [ main, master ]
   workflow_dispatch:
-
 jobs:
   build:
     runs-on: ubuntu-22.04
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-
-      - name: Install system dependencies
+      - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y \
-            build-essential libssl-dev libffi-dev libbz2-dev libsqlite3-dev \
-            libncurses5 libncursesw5 zlib1g-dev liblzo2-dev liblzma-dev \
-            python3-dev openjdk-17-jdk \
-            autoconf automake libtool pkg-config \
-            zip unzip git ccache gettext
-          sudo apt-get clean
-          # Instalar buildozer y dependencias nuevas
-          pip install --upgrade pip setuptools wheel
-          pip install "Cython==0.29.36" buildozer
-
-      - name: Clean build cache
-        run: |
-          rm -rf .buildozer
-          rm -rf ~/.buildozer
-
-      - name: Build APK with Buildozer
-        run: |
-          buildozer -v android debug
+          sudo apt-get install -y build-essential libssl-dev libffi-dev python3-dev openjdk-17-jdk zip unzip git ccache libbz2-dev libsqlite3-dev zlib1g-dev libncurses5-dev
+          pip install --upgrade pip
+          pip install buildozer Cython==0.29.36
+      - name: Clean cache
+        run: rm -rf .buildozer ~/.buildozer
+      - name: Build APK
+        run: buildozer -v android debug
