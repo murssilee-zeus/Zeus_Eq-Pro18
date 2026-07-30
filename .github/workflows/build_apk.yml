@@ -28,7 +28,11 @@ jobs:
           sudo apt-get install -y \
               build-essential git python3-pip python3-dev \
               openjdk-17-jdk unzip zip libncurses5-dev libncursesw5-dev \
-              libtinfo5 cmake libffi-dev libssl-dev automake libtool pkg-config
+              cmake libffi-dev libssl-dev automake libtool pkg-config \
+              libtinfo6  # ← Aquí está el cambio: usamos la versión nueva
+          # Enlace simbólico para que Buildozer encuentre la librería
+          sudo ln -s /usr/lib/$(uname -m)-linux-gnu/libtinfo.so.6 /usr/lib/$(uname -m)-linux-gnu/libtinfo.so.5
+
 
       - name: 🛠️ Instalar Buildozer y Cython
         run: |
