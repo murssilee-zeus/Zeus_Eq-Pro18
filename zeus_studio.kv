@@ -1,0 +1,315 @@
+#:import dp kivy.metrics.dp
+
+<TextInputPopup@ModalView>:
+    size_hint: None, None
+    size: dp(280), dp(180)
+    background_color: 0, 0, 0, 0
+    title_text: "Ingresar valor manual"
+    on_dismiss: app.apply_manual_value()
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: dp(16)
+        spacing: dp(12)
+        canvas.before:
+            Color:
+                rgba: 0.1, 0.08, 0.14, 0.98
+            RoundedRectangle:
+                pos: self.pos
+                size: self.size
+                radius: [dp(16),]
+            Color:
+                rgba: 0.8, 0.2, 0.6, 0.8
+            Line:
+                rounded_rectangle: (self.x, self.y, self.width, self.height, dp(16))
+                width: 1.2
+
+        Label:
+            id: popup_label
+            text: root.title_text
+            font_size: '14sp'
+            bold: True
+            color: 0.95, 0.9, 1, 1
+
+        TextInput:
+            id: popup_input
+            multiline: False
+            input_filter: 'float'
+            font_size: '18sp'
+            size_hint_y: None
+            height: dp(42)
+            background_color: 0.05, 0.05, 0.07, 1
+            foreground_color: 1, 0.4, 0.8, 1
+            padding: [dp(10), dp(10)]
+
+        Button:
+            text: "APLICAR"
+            bold: True
+            size_hint_y: None
+            height: dp(38)
+            background_normal: ''
+            background_color: 1, 0.0, 0.5, 1
+            color: 1, 1, 1, 1
+            on_release:
+                app.apply_manual_value()
+                root.dismiss()
+
+<ZeusStudioAppUI>:
+    orientation: 'vertical'
+    spacing: dp(8)
+    padding: dp(8)
+    canvas.before:
+        Color:
+            rgba: 0.06, 0.05, 0.08, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        size_hint_y: 0.35
+        orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: 0.1, 0.08, 0.14, 1
+            RoundedRectangle:
+                pos: self.pos
+                size: self.size
+                radius: [dp(12),]
+
+        Label:
+            text: "ZEUS EQ PRO18 - DSP ENGINE"
+            font_size: '13sp'
+            bold: True
+            color: 0.9, 0.2, 0.6, 1
+            size_hint_y: None
+            height: dp(28)
+
+        Widget:
+            id: eq_graph
+            canvas:
+                Color:
+                    rgba: 0.18, 0.12, 0.25, 0.6
+                Line:
+                    rectangle: (self.x, self.y, self.width, self.height)
+                    width: 1
+
+    TabbedPanel:
+        size_hint_y: 0.65
+        do_default_tab: False
+        tab_width: dp(110)
+        background_color: 0, 0, 0, 0
+
+        TabbedPanelItem:
+            text: 'Paramétrico'
+            background_normal: ''
+            background_color: 0.18, 0.12, 0.24, 1
+            color: 1, 0.4, 0.8, 1
+
+            BoxLayout:
+                orientation: 'vertical'
+                padding: dp(8)
+                spacing: dp(6)
+
+                BoxLayout:
+                    size_hint_y: None
+                    height: dp(34)
+                    spacing: dp(4)
+
+                    Button:
+                        text: 'PEAK'
+                        background_normal: ''
+                        background_color: (1, 0.0, 0.5, 1) if self.state == 'down' else (0.15, 0.1, 0.2, 1)
+                        on_release: root.set_filter_type('PEAK')
+                    Button:
+                        text: 'LOW SHELF'
+                        background_normal: ''
+                        background_color: (1, 0.0, 0.5, 1) if self.state == 'down' else (0.15, 0.1, 0.2, 1)
+                        on_release: root.set_filter_type('LOW_SHELF')
+                    Button:
+                        text: 'HIGH SHELF'
+                        background_normal: ''
+                        background_color: (1, 0.0, 0.5, 1) if self.state == 'down' else (0.15, 0.1, 0.2, 1)
+                        on_release: root.set_filter_type('HIGH_SHELF')
+                    Button:
+                        text: 'HIGH PASS'
+                        background_normal: ''
+                        background_color: (1, 0.0, 0.5, 1) if self.state == 'down' else (0.15, 0.1, 0.2, 1)
+                        on_release: root.set_filter_type('HIGH_PASS')
+
+                BoxLayout:
+                    spacing: dp(8)
+                    Label:
+                        text: 'Freq:'
+                        size_hint_x: 0.25
+                        color: 0.9, 0.8, 1, 1
+                    Slider:
+                        id: freq_slider
+                        min: 1
+                        max: 24000
+                        value: 1000
+                        value_track: True
+                        value_track_color: 1, 0, 0.5, 1
+                        on_value: root.on_param_change()
+                    Button:
+                        id: freq_btn
+                        text: f"{int(freq_slider.value)} Hz"
+                        size_hint_x: 0.35
+                        background_normal: ''
+                        background_color: 0.25, 0.15, 0.35, 1
+                        color: 1, 0.6, 0.9, 1
+                        on_release: app.open_manual_input('Freq', freq_slider)
+
+                BoxLayout:
+                    spacing: dp(8)
+                    Label:
+                        text: 'Q Factor:'
+                        size_hint_x: 0.25
+                        color: 0.9, 0.8, 1, 1
+                    Slider:
+                        id: q_slider
+                        min: 0.1
+                        max: 24.0
+                        value: 1.41
+                        value_track: True
+                        value_track_color: 0.8, 0.2, 1, 1
+                        on_value: root.on_param_change()
+                    Button:
+                        id: q_btn
+                        text: f"{q_slider.value:.2f}"
+                        size_hint_x: 0.35
+                        background_normal: ''
+                        background_color: 0.25, 0.15, 0.35, 1
+                        color: 1, 0.6, 0.9, 1
+                        on_release: app.open_manual_input('Q', q_slider)
+
+                BoxLayout:
+                    spacing: dp(8)
+                    Label:
+                        text: 'Gain:'
+                        size_hint_x: 0.25
+                        color: 0.9, 0.8, 1, 1
+                    Slider:
+                        id: gain_slider
+                        min: -24.0
+                        max: 24.0
+                        value: 0.0
+                        value_track: True
+                        value_track_color: 1, 0, 0.5, 1
+                        on_value: root.on_param_change()
+                    Button:
+                        id: gain_btn
+                        text: f"{gain_slider.value:.1f} dB"
+                        size_hint_x: 0.35
+                        background_normal: ''
+                        background_color: 0.25, 0.15, 0.35, 1
+                        color: 1, 0.6, 0.9, 1
+                        on_release: app.open_manual_input('Gain', gain_slider)
+
+        TabbedPanelItem:
+            text: 'Crossover'
+            background_normal: ''
+            background_color: 0.18, 0.12, 0.24, 1
+            color: 1, 0.4, 0.8, 1
+
+            GridLayout:
+                cols: 2
+                padding: dp(8)
+                spacing: dp(8)
+
+                BoxLayout:
+                    orientation: 'vertical'
+                    Label:
+                        text: 'SUB-BASS / BASS'
+                        color: 1, 0, 0.5, 1
+                        font_size: '11sp'
+                    Button:
+                        id: xover_1
+                        text: '120 Hz'
+                        background_color: 0.2, 0.1, 0.28, 1
+                        on_release: app.open_manual_input('XOver 1', self)
+
+                BoxLayout:
+                    orientation: 'vertical'
+                    Label:
+                        text: 'MID FREQ'
+                        color: 0.8, 0.2, 1, 1
+                        font_size: '11sp'
+                    Button:
+                        id: xover_2
+                        text: '1000 Hz'
+                        background_color: 0.2, 0.1, 0.28, 1
+                        on_release: app.open_manual_input('XOver 2', self)
+
+                BoxLayout:
+                    orientation: 'vertical'
+                    Label:
+                        text: 'HIGH / AIR'
+                        color: 0.6, 0.4, 1, 1
+                        font_size: '11sp'
+                    Button:
+                        id: xover_3
+                        text: '4000 Hz'
+                        background_color: 0.2, 0.1, 0.28, 1
+                        on_release: app.open_manual_input('XOver 3', self)
+
+                Button:
+                    text: 'RESET'
+                    background_normal: ''
+                    background_color: 0.4, 0.1, 0.3, 1
+                    on_release: root.reset_crossovers()
+
+        TabbedPanelItem:
+            text: 'Limitador'
+            background_normal: ''
+            background_color: 0.18, 0.12, 0.24, 1
+            color: 1, 0.4, 0.8, 1
+
+            BoxLayout:
+                orientation: 'vertical'
+                padding: dp(8)
+                spacing: dp(6)
+
+                BoxLayout:
+                    Label:
+                        text: 'Threshold:'
+                        size_hint_x: 0.3
+                    Slider:
+                        id: lim_thresh
+                        min: -24.0
+                        max: 0.0
+                        value: -2.0
+                        on_value: root.on_limiter_change()
+                    Button:
+                        text: f"{lim_thresh.value:.1f} dB"
+                        size_hint_x: 0.3
+                        on_release: app.open_manual_input('Thresh', lim_thresh)
+
+                BoxLayout:
+                    Label:
+                        text: 'Attack:'
+                        size_hint_x: 0.3
+                    Slider:
+                        id: lim_attack
+                        min: 0.1
+                        max: 50.0
+                        value: 1.0
+                        on_value: root.on_limiter_change()
+                    Button:
+                        text: f"{lim_attack.value:.1f} ms"
+                        size_hint_x: 0.3
+                        on_release: app.open_manual_input('Attack', lim_attack)
+
+                BoxLayout:
+                    Label:
+                        text: 'Release:'
+                        size_hint_x: 0.3
+                    Slider:
+                        id: lim_release
+                        min: 10.0
+                        max: 500.0
+                        value: 60.0
+                        on_value: root.on_limiter_change()
+                    Button:
+                        text: f"{int(lim_release.value)} ms"
+                        size_hint_x: 0.3
+                        on_release: app.open_manual_input('Release', lim_release)
