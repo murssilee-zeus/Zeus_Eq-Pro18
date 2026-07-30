@@ -43,3 +43,4 @@ jobs:
       with:
         name: ZeusEQPro18-APK
         path: bin/*.apk
+        
