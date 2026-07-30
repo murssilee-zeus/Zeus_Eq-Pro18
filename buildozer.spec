@@ -29,7 +29,7 @@ p4a.bootstrap = sdl2
 p4a.fork = kivy
 
 # Tienes carpeta android/? Si SI tienes codigo Java, descomenta esto:
-android.add_src = android/src
+# android.add_src = android/src
 
 android.release_artifact = apk
 android.debug_artifact = apk
