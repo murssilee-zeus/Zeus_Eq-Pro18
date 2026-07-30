@@ -1,75 +1,52 @@
-# Zeus EQ Pro18 - Buildozer Configuration File
+# Zeus EQ Pro18 - Buildozer Configuration File CORREGIDO
 
 [app]
 
-# (str) Title of your application
 title = Zeus EQ Pro18
-
-# (str) Package name
 package.name = zeuseqpro18
-
-# (str) Package domain (needed for android/ios packaging)
 package.domain = com.bearinmind
-
-# (str) Source code where the main.py live
-source.dir = .
-
-# (list) Source files to include
+source.dir =.
 source.include_exts = py,png,jpg,kv,atlas,json,wav,mp3
+source.exclude_dirs = tests, bin, venv,.venv,.github,.git,.buildozer, __pycache__
 
-# (list) List of directory to exclude
-source.exclude_dirs = tests, bin, .venv, .github, .git
-
-# (str) Application versioning
 version = 1.0.0
 
-# (list) Application requirements
-requirements = python3,kivy==2.3.0,pyjnius,android
+# --- REQUISITOS CORREGIDOS ---
+# Usa recetas estables. Si te da error con pyjnius, quítalo de aquí y pon kivy==2.3.1
+requirements = python3,kivy==2.3.1,pyjnius,android
+# Si usas kivymd, agrégalo:,kivymd==1.1
 
-# (str) Custom source folders for requirements
-android.add_src = android/src
+# --- ICONO ---
+# Si no tienes icon.png, comenta esta linea con #
+# icon.filename = %(source.dir)s/icon.png
 
-# (str) Icon of the application
-icon.filename = %(source.dir)s/icon.png
-
-# (str) Supported orientation
 orientation = portrait
-
-# (bool) Indicate if the application should be fullscreen
 fullscreen = 0
 
-# (list) Permissions
+# --- ANDROID ---
 android.permissions = INTERNET,RECORD_AUDIO,MODIFY_AUDIO_SETTINGS
-
-# (int) Target Android API
-android.api = 34
-
-# (int) Minimum API required
-android.minapi = 28
-
-# (int) Android NDK version
+android.api = 33
+android.minapi = 24
 android.ndk = 25b
+android.archs = arm64-v8a, armeabi-v7a
+android.enable_androidx = True
+android.accept_sdk_license = True
+android.ant = auto
 
-# (bool) Use --private data storage
+# --- ESTO ES LO QUE ARREGLA TU ERROR ---
+p4a.branch = master
+p4a.bootstrap = sdl2
+# p4a para que no use python 3.14
+p4a.fork = kivy
+# Opcional pero recomendado
 android.private_storage = True
 
-# (list) The Android archs to build for
-android.archs = arm64-v8a
+# Si SÍ tienes la carpeta android/src con tu Java, descomenta esto:
+# android.add_src = android/src
 
-# (bool) Enable AndroidX support
-android.enable_androidx = True
-
-# (bool) Accept SDK license automatically
-android.accept_sdk_license = True
-
-# (str) The format used to package the app
 android.release_artifact = apk
 android.debug_artifact = apk
 
 [buildozer]
-
-# (int) Log level
 log_level = 2
-
-# (int) Display warning if buildozer is run as root
 warn_on_root = 1
