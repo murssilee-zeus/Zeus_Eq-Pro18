@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout repository
@@ -21,8 +21,9 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential libssl-dev libffi-dev python3-dev gzip tar zip unzip openjdk-17-jdk
-          pip install --upgrade pip
+          sudo apt-get install -y build-essential libssl-dev libffi-dev python3-dev \
+            gzip tar zip unzip openjdk-17-jdk ccache git gettext lld patch
+          pip install --upgrade pip setuptools
           pip install "cython<3.0.0" buildozer
 
       - name: Build APK with Buildozer
