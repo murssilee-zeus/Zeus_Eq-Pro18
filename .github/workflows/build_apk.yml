@@ -38,11 +38,11 @@ jobs:
           pip install --user buildozer==1.5.0 cython==0.29.37
           echo "$HOME/.local/bin" >> $GITHUB_PATH
 
-      - name: ✅ Aceptar licencias de Android automáticamente
+      - name: ✅ Aceptar licencias de Android
         run: |
           mkdir -p $ANDROID_HOME/licenses
-          echo -e "\n24333f8a63b6825ea9c5514f83c2829b004d1fee" > $ANDROID_HOME/licenses/android-sdk-license
-          echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > $ANDROID_HOME/licenses/android-sdk-preview-license
+          echo "24333f8a63b6825ea9c5514f83c2829b004d1fee" > $ANDROID_HOME/licenses/android-sdk-license
+          echo "84831b9409646a918e30573bab4c9c91346d8abd" > $ANDROID_HOME/licenses/android-sdk-preview-license
 
       - name: 🚀 Compilar APK
         run: buildozer android debug --verbose
@@ -53,23 +53,3 @@ jobs:
           name: Zeus-Eq-Pro-APK
           path: bin/*.apk
           retention-days: 15
-                                                                                                                                                                                                          python -m pip install --upgrade pip setuptools wheel
-                                                                                                                                                                                                                    pip install --user buildozer==1.5.0 cython==0.29.37
-                                                                                                                                                                                                                              echo "$HOME/.local/bin" >> $GITHUB_PATH
-
-                                                                                                                                                                                                                                    - name: ✅ Aceptar licencias de Android automáticamente
-                                                                                                                                                                                                                                            run: |
-                                                                                                                                                                                                                                                      mkdir -p $ANDROID_HOME/licenses
-                                                                                                                                                                                                                                                                echo -e "\n24333f8a63b6825ea9c5514f83c2829b004d1fee" > $ANDROID_HOME/licenses/android-sdk-license
-                                                                                                                                                                                                                                                                          echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > $ANDROID_HOME/licenses/android-sdk-preview-license
-
-                                                                                                                                                                                                                                                                                - name: 🚀 Compilar APK
-                                                                                                                                                                                                                                                                                        run: buildozer android debug --verbose
-
-                                                                                                                                                                                                                                                                                              - name: 📤 Subir APK compilada
-                                                                                                                                                                                                                                                                                                      uses: actions/upload-artifact@v4
-                                                                                                                                                                                                                                                                                                              with:
-                                                                                                                                                                                                                                                                                                                        name: Zeus-Eq-Pro-APK
-                                                                                                                                                                                                                                                                                                                                  path: bin/*.apk
-                                                                                                                                                                                                                                                                                                                                            retention-days: 15
-                                                                                                                                                                                                                                                                                                                                            
