@@ -24,7 +24,7 @@ jobs:
           sudo apt-get install -y build-essential libssl-dev libffi-dev python3-dev \
             gzip tar zip unzip openjdk-17-jdk ccache git gettext lld patch
           pip install --upgrade pip setuptools
-          pip install "cython==0.29.36" "buildozer==1.5.0"
+          pip install "cython<3.0.0" buildozer
 
       - name: Clean build cache
         run: |
@@ -32,7 +32,4 @@ jobs:
 
       - name: Build APK with Buildozer
         run: |
-          buildozer -v android debug
-        env:
-          APP_NO_ISOLATION: "1"
-          USE_SETUPTOOLS: "1"
+          buildozer -v android debug --p4a.branch=release-2022.12.20
